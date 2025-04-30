@@ -1,0 +1,662 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Courier Tracking API",
+    "description": "Courier Tracking System | This API is developed for Migros One Study Case.",
+    "contact": {
+      "name": "Furkan Yesilyurt",
+      "email": "f.yesilyurt@outlook.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Store Entrance Controller",
+      "description": "Here we can list and save store entrances."
+    },
+    {
+      "name": "Courier Location Controller",
+      "description": "Here we can send a new courier location."
+    },
+    {
+      "name": "Store Controller",
+      "description": "Here we can list, save, delete and update stores."
+    },
+    {
+      "name": "Courier Controller",
+      "description": "Here we can list, save, delete and update couriers."
+    }
+  ],
+  "paths": {
+    "/api/v1/couriers": {
+      "get": {
+        "tags": [
+          "Courier Controller"
+        ],
+        "summary": "Get all couriers",
+        "description": "Fetches a list of all couriers in the system.",
+        "operationId": "getAllCouriers",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "required": false,
+            "schema": {
+              "minimum": 1,
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully fetched all couriers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Courier"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No couriers found",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Courier Controller"
+        ],
+        "summary": "Update a courier",
+        "operationId": "updateCourier",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Courier Request Model"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Courier"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Courier Controller"
+        ],
+        "summary": "Save a courier",
+        "operationId": "saveCourier",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Courier Request Model"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/store-entrances": {
+      "get": {
+        "tags": [
+          "Store Entrance Controller"
+        ],
+        "summary": "Get all store entrances.",
+        "operationId": "getAllStoreEntrances",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "required": false,
+            "schema": {
+              "minimum": 1,
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageStoreEntranceDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Store Entrance Controller"
+        ],
+        "summary": "Save a store entrance manually.",
+        "operationId": "saveEntrance",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreEntranceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/courier-location": {
+      "post": {
+        "tags": [
+          "Courier Location Controller"
+        ],
+        "summary": "Send a new courier location.",
+        "operationId": "saveLocation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Courier Location Dto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/stores": {
+      "get": {
+        "tags": [
+          "Store Controller"
+        ],
+        "summary": "Get all stores",
+        "description": "Fetches a list of all stores in the system.",
+        "operationId": "findAllStores",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "required": false,
+            "schema": {
+              "minimum": 1,
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully fetched all stores",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Store Dto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No stores found",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/store-entrances/{courier-id}": {
+      "get": {
+        "tags": [
+          "Store Entrance Controller"
+        ],
+        "summary": "Get store entrances by courier id.",
+        "operationId": "getStoreEntrancesByCourierId",
+        "parameters": [
+          {
+            "name": "courier-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StoreEntranceDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/couriers/total-travel-distance/{courier-id}": {
+      "get": {
+        "tags": [
+          "Courier Controller"
+        ],
+        "summary": "Get total distance traveled by a courier",
+        "operationId": "getTotalTravelDistance",
+        "parameters": [
+          {
+            "name": "courier-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/couriers/{courier-id}": {
+      "delete": {
+        "tags": [
+          "Courier Controller"
+        ],
+        "summary": "Delete a courier by id",
+        "operationId": "deleteCourierById",
+        "parameters": [
+          {
+            "name": "courier-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/couriers/identity/{identity-no}": {
+      "delete": {
+        "tags": [
+          "Courier Controller"
+        ],
+        "summary": "Delete a courier by identity no",
+        "operationId": "deleteCourierByIdentityNo",
+        "parameters": [
+          {
+            "name": "identity-no",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Courier Request Model": {
+        "required": [
+          "firstName",
+          "identityNo",
+          "lastName"
+        ],
+        "type": "object",
+        "properties": {
+          "identityNo": {
+            "type": "string",
+            "description": "The courier's identity no should be 11 digits",
+            "example": "11111111111"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "The courier's first name",
+            "example": "Furkan"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "The courier's last name",
+            "example": "Yesilyurt"
+          }
+        },
+        "description": "It is a courier dto that you can send as requested."
+      },
+      "Courier": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The courier's id",
+            "format": "int64"
+          },
+          "identityNo": {
+            "type": "string",
+            "description": "The courier's identity no"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "The courier's first name"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "The courier's last name"
+          },
+          "totalDistance": {
+            "type": "number",
+            "description": "The courier's total distance"
+          }
+        },
+        "description": "A courier object"
+      },
+      "StoreEntranceRequest": {
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "courierId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "time": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Courier Location Dto": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "$ref": "#/components/schemas/Point Dto"
+          },
+          "courierId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "Information about the courier's current location"
+      },
+      "Point Dto": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "description": "Information about a location"
+      },
+      "Store Dto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The store's id",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "The store's name"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Point Dto"
+          }
+        },
+        "description": "Information about a store"
+      },
+      "PageStoreEntranceDto": {
+        "type": "object",
+        "properties": {
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StoreEntranceDto"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PageableObject": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "paged": {
+            "type": "boolean"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unpaged": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SortObject": {
+        "type": "object",
+        "properties": {
+          "empty": {
+            "type": "boolean"
+          },
+          "sorted": {
+            "type": "boolean"
+          },
+          "unsorted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "StoreEntranceDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "storeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "courierId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "time": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}
