@@ -21,7 +21,7 @@ This project was developed to calculate the store entrance control and the total
 # Installation
 1. Clone the repo
 ```sh
-https://github.com/furkanyesilyurt/courier-tracking-service.git
+https://github.com/furkanyesilyurt/courier-tracking.git
 ```
 
 2. Run Docker-Compose file
